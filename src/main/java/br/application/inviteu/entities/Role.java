@@ -23,7 +23,7 @@ public class Role {
    
    @JsonIgnore
    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-   private Collection<Usuario> usuarios;
+   private Collection<User> users;
 
    public Role() {
       
@@ -45,11 +45,11 @@ public class Role {
       this.role = role;
    }
 
-   public Collection<Usuario> getUsers() {
-      return usuarios;
+   public Collection<User> getUsers() {
+      return users;
    }
 
-   public void setUsers(Collection<Usuario> usuarios) {
-      this.usuarios = usuarios;
+   public void setUsers(Collection<User> users) {
+      this.users = users;
    }
 }

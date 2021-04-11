@@ -18,45 +18,45 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
-@Table(name = "usuario")
-public class Usuario {
+@Table(name = "user")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    private String senha;
-    private String nome;
-    private LocalDate dataNascimento;
+    private String password;
+    private String name;
+    private LocalDate birthDate;
     private String rg;
     private String cpf;
     private String email;
-    private String sexo;
+    private String gender;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "usuario_id"),
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco", referencedColumnName = "id")
-    private Endereco endereco;
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
-    public Usuario() {
+    public User() {
 
     }
 
-    public Usuario(String username, String senha, String nome, LocalDate dataNascimento, String rg, String cpf,
-            String email, String sexo, Collection<Role> roles, Endereco endereco) {
+    public User(String username, String password, String name, LocalDate birthDate, String rg, String cpf,
+                String email, String gender, Collection<Role> roles, Address address) {
         this.username = username;
-        this.senha = senha;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
         this.rg = rg;
         this.cpf = cpf;
         this.email = email;
-        this.sexo = sexo;
+        this.gender = gender;
         this.roles = roles;
-        this.endereco = endereco;
+        this.address = address;
     }
 
     public Long getId() {
@@ -71,29 +71,29 @@ public class Usuario {
         this.username = username;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
+    public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.senha = passwordEncoder.encode(senha);
+        this.password = passwordEncoder.encode(password);
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getRg() {
@@ -120,12 +120,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Collection<Role> getRoles() {
