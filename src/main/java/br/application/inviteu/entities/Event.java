@@ -9,16 +9,7 @@ import java.util.Objects;
 @Table(name = "Event_main")
 public class Event implements Serializable {
 
-    public Event() {
-    }
-
-    public Event(Long id, String title, String description, Boolean isPublic, List<SubEvent> subEvents) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.isPublic = isPublic;
-        this.subEvents = subEvents;
-    }
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,17 +22,21 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private List<SubEvent> subEvents;
 
-    /*
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-     */
 
-    /*
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "status_id", referencedColumnName = "id")
-    private Status status;
-     */
+    public Event() {
+    }
+
+    public Event(Long id, String title, String description, Boolean isPublic, List<SubEvent> subEvents, Address address) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.isPublic = isPublic;
+        this.subEvents = subEvents;
+        this.address = address;
+    }
 
     public Long getId() {
         return id;
@@ -81,6 +76,14 @@ public class Event implements Serializable {
 
     public void setSubEvents(List<SubEvent> subEvents) {
         this.subEvents = subEvents;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

@@ -1,32 +1,21 @@
 package br.application.inviteu.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User implements Serializable{
 
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String password;
     private String name;
@@ -35,6 +24,9 @@ public class User implements Serializable{
     private String cpf;
     private String email;
     private String gender;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> ratingList;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
@@ -46,11 +38,10 @@ public class User implements Serializable{
     private Address address;
 
     public User() {
-
     }
 
-    public User(String username, String password, String name, LocalDate birthDate, String rg, String cpf,
-                String email, String gender, Collection<Role> roles, Address address) {
+    public User(Long id, String username, String password, String name, LocalDate birthDate, String rg, String cpf, String email, String gender, List<Rating> ratingList, Collection<Role> roles, Address address) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -59,12 +50,17 @@ public class User implements Serializable{
         this.cpf = cpf;
         this.email = email;
         this.gender = gender;
+        this.ratingList = ratingList;
         this.roles = roles;
         this.address = address;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -80,8 +76,7 @@ public class User implements Serializable{
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
+        this.password = password;
     }
 
     public String getName() {
@@ -132,12 +127,28 @@ public class User implements Serializable{
         this.gender = gender;
     }
 
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
+    }
+
     public Collection<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

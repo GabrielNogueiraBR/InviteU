@@ -2,25 +2,21 @@ package br.application.inviteu.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
+@Table(name = "Address")
 public class Address implements Serializable{
-   
+
    private static final long serialVersionUID = 1L;
-   
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
    @OneToOne(mappedBy = "address")
-   private User user;
+   @JoinColumn(name = "event_id", referencedColumnName = "id")
+   private Event event;
 
    private String zipCode;
    private String state;
@@ -30,11 +26,9 @@ public class Address implements Serializable{
    private String number;
 
    public Address() {
-
    }
 
-   public Address(User user, String zipCode, String state, String city, String district, String street, String number) {
-      this.user = user;
+   public Address(String zipCode, String state, String city, String district, String street, String number) {
       this.zipCode = zipCode;
       this.state = state;
       this.city = city;
@@ -93,14 +87,6 @@ public class Address implements Serializable{
 
    public void setNumber(String number) {
       this.number = number;
-   }
-
-   public User getUser() {
-      return user;
-   }
-
-   public void setUser(User user) {
-      this.user = user;
    }
 
    @Override

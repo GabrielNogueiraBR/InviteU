@@ -2,49 +2,50 @@ package br.application.inviteu.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_avaliacao")
-    public class Rating implements Serializable{
+@Table(name = "Rating")
+public class Rating implements Serializable{
+
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-    private Long id_sub_evento;
-    private Integer avaliacao;
-    private Long id_usuario;
-    
+
+    private Integer rating;
+
+    @OneToOne()
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @OneToOne()
+    @JoinColumn(name = "subEvent_id", referencedColumnName = "id")
+    private SubEvent subEvent;
+
+    public Rating() {
+    }
+
+    public Rating(Long id, Integer rating) {
+        this.id = id;
+        this.rating = rating;
+    }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getId_sub_evento() {
-        return id_sub_evento;
+
+    public Integer getRating() {
+        return rating;
     }
-    public void setId_sub_evento(Long id_sub_evento) {
-        this.id_sub_evento = id_sub_evento;
-    }
-    public int getAvaliacao() {
-        return avaliacao;
-    }
-    public void setAvaliacao(int avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-    public Long getId_usuario() {
-        return id_usuario;
-    }
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     @Override
