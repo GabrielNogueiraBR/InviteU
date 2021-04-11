@@ -9,15 +9,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_status")
+@Table(name = "Status")
 public class Status implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-    private String descricao;
+
+    private String description;
+
+    public Status() {
+    }
+
+    public Status(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -25,11 +33,11 @@ public class Status implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
