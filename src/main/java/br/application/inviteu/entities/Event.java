@@ -1,11 +1,13 @@
 package br.application.inviteu.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Event_main")
-public class Event {
+public class Event implements Serializable {
 
     public Event() {
     }
@@ -79,5 +81,18 @@ public class Event {
 
     public void setSubEvents(List<SubEvent> subEvents) {
         this.subEvents = subEvents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

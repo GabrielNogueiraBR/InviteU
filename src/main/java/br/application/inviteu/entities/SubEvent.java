@@ -1,11 +1,13 @@
 package br.application.inviteu.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Event_sub")
-public class SubEvent {
+public class SubEvent implements Serializable {
 
     public SubEvent() {
     }
@@ -89,4 +91,18 @@ public class SubEvent {
     public void setEvent(Event event) {
         this.event = event;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubEvent subEvent = (SubEvent) o;
+        return Objects.equals(id, subEvent.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+    
 }
