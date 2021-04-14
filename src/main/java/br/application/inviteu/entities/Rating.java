@@ -27,8 +27,7 @@ public class Rating implements Serializable{
     public Rating() {
     }
 
-    public Rating(Long id, Integer rating) {
-        this.id = id;
+    public Rating(Integer rating) {
         this.rating = rating;
     }
 

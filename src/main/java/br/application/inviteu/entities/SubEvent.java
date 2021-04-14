@@ -37,8 +37,7 @@ public class SubEvent implements Serializable {
     public SubEvent() {
     }
 
-    public SubEvent(Long id, String title, String description, LocalDateTime dateTime, Boolean isLimited, Integer capacity, List<Rating> rating, Event event, Status status) {
-        this.id = id;
+    public SubEvent( String title, String description, LocalDateTime dateTime, Boolean isLimited, Integer capacity, List<Rating> rating, Event event, Status status) {
         this.title = title;
         this.description = description;
         this.dateTime = dateTime;

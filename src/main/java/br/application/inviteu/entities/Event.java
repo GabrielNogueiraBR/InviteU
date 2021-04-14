@@ -29,8 +29,7 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    public Event(Long id, String title, String description, Boolean isPublic, List<SubEvent> subEvents, Address address) {
-        this.id = id;
+    public Event(String title, String description, Boolean isPublic, List<SubEvent> subEvents, Address address) {
         this.title = title;
         this.description = description;
         this.isPublic = isPublic;
