@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -24,12 +28,14 @@ public class SubEvent implements Serializable {
 
     private String title;
     private String description;
-    private LocalDateTime dateTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     private Boolean isLimited;
     private Integer capacity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subEvent")
-    private List<Rating> rating;
+    private List<Rating> ratingList;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
@@ -38,5 +44,24 @@ public class SubEvent implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private Status status;
+
+    @ManyToMany(mappedBy = "subEvents")
+    private List<User> user;
+
+    @JsonGetter("rating")
+    public Double getRatingValue(){
+        int quantity = 0;
+        Double rantingSum = 0.0;
+
+        for (Rating element : ratingList) {
+            rantingSum += element.getRating();
+            quantity++;
+        }
+
+        if(quantity == 0)
+            return 0.0;
+        
+        return (rantingSum/quantity);
+    }
 
 }

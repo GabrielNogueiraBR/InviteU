@@ -41,4 +41,17 @@ public class User implements Serializable{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+
+    @OneToMany
+    @JoinColumn(name = "user_owner_id")
+    private List<Event> events;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_sub_event",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "subEvent")
+    )
+    private List<SubEvent> subEvents;
+    
 }
