@@ -3,6 +3,8 @@ package br.application.inviteu.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,17 @@ public class StatusService {
 
     public Status saveStatus(Status status) {
         return repository.save(status);
+    }
+
+    public Status updateStatus(Long id, StatusInsertDTO dto) {
+        try{
+            Status status = getStatusById(id);
+            status.setDescription(dto.getDescription());
+            return repository.save(status);
+        }
+        catch(EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
+        }
     }
     
 }
