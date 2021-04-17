@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @Entity
 @Table(name = "user")

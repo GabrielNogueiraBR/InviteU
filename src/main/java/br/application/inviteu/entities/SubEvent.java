@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-@Data
 @AllArgsConstructor
 @Entity
 @Table(name = "Event_sub")

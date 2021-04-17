@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-@Data
 @AllArgsConstructor
 @Entity
 @Table(name = "Address")
