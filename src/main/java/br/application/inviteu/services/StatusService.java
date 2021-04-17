@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.application.inviteu.dto.StatusInsertDTO;
 import br.application.inviteu.entities.Status;
 import br.application.inviteu.repositories.StatusRepository;
 
@@ -24,6 +25,10 @@ public class StatusService {
     public Status getStatusById(Long id) {
         Optional<Status> op = repository.findById(id);
         return op.orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found"));    
+    }
+
+    public Status saveStatus(Status status) {
+        return repository.save(status);
     }
     
 }
