@@ -1,13 +1,15 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
 @Entity
 @Table(name = "Rating")
 public class Rating implements Serializable{
@@ -16,16 +18,16 @@ public class Rating implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
-    private Integer rating;
+    @Getter @Setter private Integer rating;
 
     @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Getter @Setter private User user;
 
     @OneToOne()
     @JoinColumn(name = "subEvent_id", referencedColumnName = "id")
-    private SubEvent subEvent;
+    @Getter @Setter private SubEvent subEvent;
     
 }

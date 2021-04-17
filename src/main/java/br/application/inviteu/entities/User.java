@@ -1,7 +1,6 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +9,9 @@ import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of="id")
+@ToString
 @Entity
 @Table(name = "user")
 public class User implements Serializable{
@@ -18,32 +20,32 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
-    private String username;
-    private String password;
-    private String name;
-    private LocalDate birthDate;
-    private String rg;
-    private String cpf;
-    private String email;
-    private String gender;
+    @Getter @Setter private String username;
+    @Getter @Setter private String password;
+    @Getter @Setter private String name;
+    @Getter @Setter private LocalDate birthDate;
+    @Getter @Setter private String rg;
+    @Getter @Setter private String cpf;
+    @Getter @Setter private String email;
+    @Getter @Setter private String gender;
 
     @OneToMany(mappedBy = "user")
-    private List<Rating> ratingList;
+    @Getter @Setter private List<Rating> ratingList;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @Getter @Setter private Collection<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @Getter @Setter private Address address;
 
     @OneToMany
     @JoinColumn(name = "user_owner_id")
-    private List<Event> events;
+    @Getter @Setter private List<Event> events;
 
     @ManyToMany
     @JoinTable(
@@ -51,6 +53,6 @@ public class User implements Serializable{
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "subEvent")
     )
-    private List<SubEvent> subEvents;
+    @Getter @Setter private List<SubEvent> subEvents;
     
 }

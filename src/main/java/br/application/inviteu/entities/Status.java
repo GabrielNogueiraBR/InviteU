@@ -1,7 +1,6 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
 @Entity
 @Table(name = "Status")
 public class Status implements Serializable{
@@ -19,8 +21,8 @@ public class Status implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
-    private String description;
+    @Getter @Setter private String description;
 
 }

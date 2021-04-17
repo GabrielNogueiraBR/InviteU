@@ -1,13 +1,15 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
 @Entity
 @Table(name = "Address")
 public class Address implements Serializable{
@@ -16,17 +18,17 @@ public class Address implements Serializable{
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+   @Getter private Long id;
 
    @OneToOne(mappedBy = "address")
    @JoinColumn(name = "event_id", referencedColumnName = "id")
-   private Event event;
+   @Getter @Setter private Event event;
 
-   private String zipCode;
-   private String state;
-   private String city;
-   private String district;
-   private String street;
-   private String number;
+   @Getter @Setter private String zipCode;
+   @Getter @Setter private String state;
+   @Getter @Setter private String city;
+   @Getter @Setter private String district;
+   @Getter @Setter private String street;
+   @Getter @Setter private String number;
 
 }
