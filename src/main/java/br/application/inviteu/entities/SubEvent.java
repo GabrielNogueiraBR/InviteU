@@ -1,7 +1,6 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,8 +13,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
 @Entity
 @Table(name = "Event_sub")
 public class SubEvent implements Serializable {
@@ -24,29 +25,29 @@ public class SubEvent implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
-    private String title;
-    private String description;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
-    private Boolean isLimited;
-    private Integer capacity;
+    @Getter @Setter private String title;
+    @Getter @Setter private String description;
+    @Getter @Setter private LocalDateTime startDateTime;
+    @Getter @Setter private LocalDateTime endDateTime;
+    @Getter @Setter private Boolean isLimited;
+    @Getter @Setter private Integer capacity;
 
     @JsonIgnore
     @OneToMany(mappedBy = "subEvent")
-    private List<Rating> ratingList;
+    @Getter @Setter private List<Rating> ratingList;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    @Getter @Setter private Event event;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status_id", referencedColumnName = "id")
-    private Status status;
+    @Getter @Setter private Status status;
 
     @ManyToMany(mappedBy = "subEvents")
-    private List<User> user;
+    @Getter @Setter private List<User> user;
 
     @JsonGetter("rating")
     public Double getRatingValue(){
