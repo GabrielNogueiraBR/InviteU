@@ -12,12 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
+
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 public class Role implements Serializable{
 
    private static final long serialVersionUID = 1L;
@@ -33,4 +34,7 @@ public class Role implements Serializable{
    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
    private Collection<User> users;
 
+   public Role(String role) {
+      this.role = role;
+   }
 }
