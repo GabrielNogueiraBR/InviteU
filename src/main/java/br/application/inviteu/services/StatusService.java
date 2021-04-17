@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,6 +43,18 @@ public class StatusService {
         }
         catch(EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
+        }
+    }
+
+    public void deleteStatus(Long id) {
+        try{
+            repository.deleteById(id);
+        }
+        catch(EmptyResultDataAccessException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
+        }
+        catch(DataIntegrityViolationException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status could not be deleted");
         }
     }
     
