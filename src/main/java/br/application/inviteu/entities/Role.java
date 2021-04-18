@@ -14,9 +14,10 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-
-@Entity
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
+@Entity
 @Getter
 @Setter
 public class Role implements Serializable{
@@ -25,14 +26,15 @@ public class Role implements Serializable{
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+   @Getter private Long id;
 
    @Column(unique = true)
+   @Getter @Setter
    private String role;
    
    @JsonIgnore
    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-   private Collection<User> users;
+   @Getter @Setter private Collection<User> users;
 
    public Role(String role) {
       this.role = role;

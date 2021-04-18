@@ -1,15 +1,18 @@
 package br.application.inviteu.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
-@Data
-@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of="id")
 @Entity
 @Table(name = "Event_main")
 public class Event implements Serializable {
@@ -18,17 +21,49 @@ public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
-    private String title;
-    private String description;
-    private Boolean isPublic;
+    @Getter @Setter private String title;
+    @Getter @Setter private String description;
+    @Getter @Setter private Boolean isPublic;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_owner_id", referencedColumnName = "id")
+    @Getter @Setter private User owner;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "event")
-    private List<SubEvent> subEvents;
+    @Getter @Setter private List<SubEvent> subEvents;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @Getter @Setter private Address address;
+    
+    
+    public Event(String title, String description, Boolean isPublic, User owner, Address address) {
+        this.title = title;
+        this.description = description;
+        this.isPublic = isPublic;
+        this.owner = owner;
+        this.address = address;
+    }
+
+    @JsonGetter("rating")
+    public Double getRatingValue(){
+        int quantity = 0;
+        Double average = 0.0;
+
+        for(SubEvent subEvent: subEvents){
+            average += subEvent.getRatingValue();
+            quantity++;
+        }
+
+        if(quantity == 0)
+            return 0.0;
+        
+        average = average/quantity;
+        return average;
+    }
 
 }
