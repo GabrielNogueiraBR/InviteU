@@ -25,4 +25,8 @@ public class Status implements Serializable{
 
     @Getter @Setter private String description;
 
+    public Status (String description){
+        this.description = description;
+    }
+
 }
