@@ -1,5 +1,6 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class User implements Serializable{
     @Getter @Setter private String email;
     @Getter @Setter private String gender;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     @Getter @Setter private List<Rating> ratingList;
 
@@ -43,10 +45,12 @@ public class User implements Serializable{
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     @Getter @Setter private Address address;
 
+    @JsonIgnore
     @OneToMany
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private List<Event> events;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "user_sub_event",

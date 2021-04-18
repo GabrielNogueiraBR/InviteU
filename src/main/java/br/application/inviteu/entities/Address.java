@@ -1,5 +1,6 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Address implements Serializable{
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Getter private Long id;
 
+   @JsonIgnore
    @OneToOne(mappedBy = "address")
    @JoinColumn(name = "event_id", referencedColumnName = "id")
    @Getter @Setter private Event event;

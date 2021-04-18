@@ -38,6 +38,7 @@ public class SubEvent implements Serializable {
     @OneToMany(mappedBy = "subEvent")
     @Getter @Setter private List<Rating> ratingList;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     @Getter @Setter private Event event;

@@ -1,20 +1,17 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "Event_main")
 public class Event implements Serializable {
@@ -33,7 +30,6 @@ public class Event implements Serializable {
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private User owner;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "event")
     @Getter @Setter private List<SubEvent> subEvents;
 
