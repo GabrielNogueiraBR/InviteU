@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -20,6 +22,7 @@ public class Address implements Serializable{
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Getter private Long id;
 
+   @JsonIgnore
    @OneToOne(mappedBy = "address")
    @JoinColumn(name = "event_id", referencedColumnName = "id")
    @Getter @Setter private Event event;

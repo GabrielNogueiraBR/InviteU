@@ -1,20 +1,17 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import lombok.*;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "Event_main")
 public class Event implements Serializable {
@@ -24,8 +21,15 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter private Long id;
+    
+    
+    @OneToMany(mappedBy = "event")
+    @Getter @Setter private List<SubEvent> subEvents;
 
     @Getter @Setter private String title;
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
     @Getter @Setter private String description;
     @Getter @Setter private Boolean isPublic;
 
@@ -33,14 +37,10 @@ public class Event implements Serializable {
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private User owner;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "event")
-    @Getter @Setter private List<SubEvent> subEvents;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     @Getter @Setter private Address address;
-
+    
     @JsonGetter("rating")
     public Double getRatingValue(){
         int quantity = 0;

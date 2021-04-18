@@ -9,9 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +36,7 @@ public class SubEvent implements Serializable {
     @OneToMany(mappedBy = "subEvent")
     @Getter @Setter private List<Rating> ratingList;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     @Getter @Setter private Event event;
