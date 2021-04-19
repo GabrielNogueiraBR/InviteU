@@ -1,5 +1,7 @@
 package br.application.inviteu.entities;
 
+import br.application.inviteu.dto.event.EventCreateDTO;
+import br.application.inviteu.dto.event.EventDTO;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import lombok.*;
@@ -21,25 +23,21 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter private Long id;
-    
-    
-    @OneToMany(mappedBy = "event")
-    @Getter @Setter private List<SubEvent> subEvents;
 
     @Getter @Setter private String title;
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
     @Getter @Setter private String description;
     @Getter @Setter private Boolean isPublic;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @Getter @Setter private Address address;
 
     @ManyToOne
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private User owner;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    @Getter @Setter private Address address;
+    @OneToMany(mappedBy = "event")
+    @Getter @Setter private List<SubEvent> subEvents;
     
     @JsonGetter("rating")
     public Double getRatingValue(){
@@ -56,6 +54,24 @@ public class Event implements Serializable {
         
         average = average/quantity;
         return average;
+    }
+
+    public Event(EventCreateDTO newEventDto) {
+        this.title = newEventDto.getTitle();
+        this.description = newEventDto.getDescription();
+        this.isPublic = newEventDto.getIsPublic();
+        this.address = newEventDto.getAddress();
+        this.owner = newEventDto.getOwner();
+        this.subEvents = newEventDto.getSubEvent();
+    }
+
+    public Event(EventDTO eventDTO) {
+        this.title = eventDTO.getTitle();
+        this.description = eventDTO.getDescription();
+        this.isPublic = eventDTO.getIsPublic();
+        this.address = eventDTO.getAddress();
+        this.owner = eventDTO.getOwner();
+        this.subEvents = eventDTO.getSubEvent();
     }
 
 }
