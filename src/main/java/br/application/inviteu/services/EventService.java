@@ -4,6 +4,7 @@ import br.application.inviteu.dto.event.EventCreateDTO;
 import br.application.inviteu.dto.event.EventDTO;
 import br.application.inviteu.dto.event.EventUpdateDTO;
 import br.application.inviteu.entities.Event;
+import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,37 +33,56 @@ public class EventService {
         return toListDTO(listEvents);
     }
 
-    public Event getEventsById(Long id){
-        Optional<Event> op = eventRepository.findById(id);
-        return op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown."));
+    public EventDTO getEventsById(Long id){
+        Optional<Event> opEvent = eventRepository.findById(id);
+
+        Event event = opEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to shown."));
+
+        return new EventDTO(event);
     }
 
-    public EventDTO saveEvent(EventCreateDTO eventDTO){
-        Event event = eventRepository.save(this.fromDTO(eventDTO));
-        return this.toDTO(event);
+    public EventDTO createEvent(EventCreateDTO newEventDTO){
+        Event eventEntity = new Event(newEventDTO);
+
+        List<SubEvent> listSubEvents = eventEntity.getSubEvents();
+
+        //if (verifyDateAndTime(listSubEvents)) {
+            try {
+                eventEntity = eventRepository.save(eventEntity);
+                return new EventDTO(eventEntity);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the event on the database");
+            }
+        //} else {
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must enter a start date that is earlier than the end.");
+        //}
     }
 
-    public Event updateEvent(Long id, EventUpdateDTO eventDTO){
+    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDto){
         try{
-            Event event = getEventsById(id);
-            event.setTitle(eventDTO.getTitle());
-            event.setDescription(eventDTO.getDescription());
-            event.setIsPublic(eventDTO.getIsPublic());
-            event.setAddress(eventDTO.getAddress());
-            return eventRepository.save(event);
+            Event event = eventRepository.getOne(id);
+
+            event.setTitle(eventUpdateDto.getTitle());
+            event.setDescription(eventUpdateDto.getDescription());
+            event.setIsPublic(eventUpdateDto.getIsPublic());
+            event.setAddress(eventUpdateDto.getAddress());
+
+            event = eventRepository.save(event);
+
+            return new EventDTO(event);
         }
         catch(EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown.");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events with this Id to shown.");
         }
     }
 
-    public void deleteEvent(Long id){
+    public void removeEvent(Long id){
         try{
             eventRepository.deleteById(id);
             throw new ResponseStatusException(HttpStatus.OK, "The event has been deleted");
         }
         catch(EmptyResultDataAccessException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown.");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events with this Id to shown.");
         }
     }
 
@@ -70,35 +90,18 @@ public class EventService {
         List<EventDTO> listDTO = new ArrayList<>();
 
         for (Event event : events) {
-            listDTO.add(toDTO(event));
+            listDTO.add(new EventDTO(event));
         }
         return listDTO;
     }
 
-    private EventDTO toDTO(Event event) {
-        EventDTO eventDTO = new EventDTO();
-
-        eventDTO.setId(event.getId());
-        eventDTO.setTitle(event.getTitle());
-        eventDTO.setDescription(event.getDescription());
-        eventDTO.setIsPublic(event.getIsPublic());
-        eventDTO.setOwner(event.getOwner());
-        eventDTO.setSubEvent(event.getSubEvents());
-        eventDTO.setAddress(event.getAddress());
-
-        return eventDTO;
+    private Boolean verifyDateAndTime(List<SubEvent> listSubEvents) {
+        for (SubEvent subEvent: listSubEvents) {
+            if (subEvent.getEndDateTime().isAfter(subEvent.getStartDateTime())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private Event fromDTO(EventCreateDTO dto){
-        Event event = new Event();
-
-        event.setTitle(dto.getTitle());
-        event.setDescription(dto.getDescription());
-        event.setIsPublic(dto.getIsPublic());
-        event.setOwner(dto.getOwner());
-        event.setSubEvents(dto.getSubEvent());
-        event.setAddress(dto.getAddress());
-
-        return event;
-    }
 }

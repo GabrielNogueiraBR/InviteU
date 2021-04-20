@@ -10,10 +10,12 @@ import lombok.Data;
 
 @Data
 public class EventCreateDTO {
+
     private String title;
     private String description;
     private Boolean isPublic;
     private User owner;
     private List<SubEvent> subEvent;
     private Address address;
+
 }
