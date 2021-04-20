@@ -36,7 +36,7 @@ public class EventService {
     public EventDTO getEventsById(Long id){
         Optional<Event> opEvent = eventRepository.findById(id);
 
-        Event event = opEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NO_CONTENT, "No events with this Id to shown."));
+        Event event = opEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to shown."));
 
         return new EventDTO(event);
     }

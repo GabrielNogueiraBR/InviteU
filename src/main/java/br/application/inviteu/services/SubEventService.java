@@ -1,22 +1,20 @@
 package br.application.inviteu.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
-
+import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
+import br.application.inviteu.dto.subEvent.SubEventDTO;
+import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
+import br.application.inviteu.entities.SubEvent;
+import br.application.inviteu.repositories.SubEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
-import br.application.inviteu.dto.subEvent.SubEventDTO;
-import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
-import br.application.inviteu.entities.SubEvent;
-import br.application.inviteu.repositories.SubEventRepository;
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubEventService {
@@ -28,87 +26,74 @@ public class SubEventService {
         List<SubEvent> listSubEvents = subEventRepository.findAll();
 
         if(listSubEvents.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents to be shown.");
         }
         return toListDTO(listSubEvents);
     }
 
-    public SubEvent getSubEventById(Long id){
-        Optional<SubEvent> op = subEventRepository.findById(id);
-        return op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown."));
+    public SubEventDTO getSubEventById(Long id){
+        Optional<SubEvent> opSubEvent = subEventRepository.findById(id);
 
+        SubEvent subEvent = opSubEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No subEvents with this Id to shown."));
+
+        return new SubEventDTO(subEvent);
     }
 
-    public SubEventDTO saveEvent(SubEventCreateDTO subEventDTO){
-        SubEvent event = subEventRepository.save(this.fromDTO(subEventDTO));
-        return this.toDTO(event);
+    public SubEventDTO createSubEvent(SubEventCreateDTO newSubEventDto){
+        if (verifyDateAndTime(newSubEventDto)) {
+            try {
+                SubEvent subEvent = subEventRepository.save(new SubEvent(newSubEventDto));
+                return new SubEventDTO(subEvent);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the subEvent on the database");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must enter a start date that is earlier than the end.");
+        }
     }
 
-    public SubEvent updateSubEvent(Long id, SubEventUpdateDTO subEventDTO){
+    public SubEventDTO updateSubEvent(Long id, SubEventUpdateDTO subEventUpdateDto){
         try{
-            SubEvent subEvent = getSubEventById(id);
+            SubEvent subEvent = subEventRepository.getOne(id);
 
-            subEvent.setTitle(subEventDTO.getTitle());
-            subEvent.setDescription(subEventDTO.getDescription());
-            subEvent.setStartDateTime(subEventDTO.getStartDateTime());
-            subEvent.setEndDateTime(subEventDTO.getEndDateTime());
-            subEvent.setIsLimited(subEventDTO.getIsLimited());
-            subEvent.setCapacity(subEventDTO.getCapacity());
-            subEvent.setStatus(subEventDTO.getStatus());
+            subEvent.setTitle(subEventUpdateDto.getTitle());
+            subEvent.setDescription(subEventUpdateDto.getDescription());
+            subEvent.setStartDateTime(subEventUpdateDto.getStartDateTime());
+            subEvent.setEndDateTime(subEventUpdateDto.getEndDateTime());
+            subEvent.setIsLimited(subEventUpdateDto.getIsLimited());
+            subEvent.setCapacity(subEventUpdateDto.getCapacity());
+            subEvent.setStatus(subEventUpdateDto.getStatus());
 
-            return subEventRepository.save(subEvent);
+            subEvent = subEventRepository.save(subEvent);
+
+            return new SubEventDTO(subEvent);
         }
         catch(EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown.");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents with this Id to shown.");
         }
     }
 
-    public void deleteSubEvent(Long id){
+    public void removeSubEvent(Long id){
         try{
             subEventRepository.deleteById(id);
-            throw new ResponseStatusException(HttpStatus.OK, "The event has been deleted");
+            throw new ResponseStatusException(HttpStatus.OK, "The subEvent has been deleted");
         }
         catch(EmptyResultDataAccessException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events to be shown.");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents with this Id to shown.");
         }
     }
     
-    private List<SubEventDTO> toListDTO(List<SubEvent> events) {
+    private List<SubEventDTO> toListDTO(List<SubEvent> subEvents) {
         List<SubEventDTO> listDTO = new ArrayList<>();
 
-        for (SubEvent event : events) {
-            listDTO.add(toDTO(event));
+        for (SubEvent subEvent : subEvents) {
+            listDTO.add(new SubEventDTO(subEvent));
         }
         return listDTO;
     }
 
-    private SubEventDTO toDTO(SubEvent subEvent) {
-        SubEventDTO subEventDTO = new SubEventDTO();
-
-        subEventDTO.setId(subEvent.getId());
-        subEventDTO.setTitle(subEvent.getTitle());
-        subEventDTO.setDescription(subEvent.getDescription());
-        subEventDTO.setStartDateTime(subEvent.getStartDateTime());
-        subEventDTO.setEndDateTime(subEvent.getEndDateTime());
-        subEventDTO.setIsLimited(subEvent.getIsLimited());
-        subEventDTO.setCapacity(subEvent.getCapacity());
-        subEventDTO.setStatus(subEvent.getStatus());
-
-        return subEventDTO;
-    }
-
-    private SubEvent fromDTO(SubEventCreateDTO subEventDTO){
-        SubEvent subEvent = new SubEvent();
-
-        subEvent.setTitle(subEventDTO.getTitle());
-        subEvent.setDescription(subEventDTO.getDescription());
-        subEvent.setStartDateTime(subEventDTO.getStartDateTime());
-        subEvent.setEndDateTime(subEventDTO.getEndDateTime());
-        subEvent.setIsLimited(subEventDTO.getIsLimited());
-        subEvent.setCapacity(subEventDTO.getCapacity());
-        subEvent.setStatus(subEventDTO.getStatus());
-
-        return subEvent;
+    private Boolean verifyDateAndTime(SubEventCreateDTO subEventDto) {
+        return subEventDto.getEndDateTime().isAfter(subEventDto.getStartDateTime());
     }
 
 }

@@ -15,4 +15,5 @@ public class SubEventUpdateDTO {
     private Boolean isLimited;
     private Integer capacity;
     private Status status;
+
 }
