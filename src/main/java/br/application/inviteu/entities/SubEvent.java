@@ -1,5 +1,6 @@
 package br.application.inviteu.entities;
 
+import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ public class SubEvent implements Serializable {
     @Getter @Setter private Integer capacity;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "subEvent")
+    @OneToMany(mappedBy = "subEvent", cascade = CascadeType.ALL)
     @Getter @Setter private List<Rating> ratingList;
 
     @JsonIgnore
@@ -45,7 +46,7 @@ public class SubEvent implements Serializable {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @Getter @Setter private Status status;
 
-    @ManyToMany(mappedBy = "subEvents")
+    @ManyToMany(mappedBy = "subEvents", cascade = CascadeType.ALL)
     @Getter @Setter private List<User> user;
 
     @JsonGetter("rating")
@@ -62,6 +63,15 @@ public class SubEvent implements Serializable {
             return 0.0;
         
         return (rantingSum/quantity);
+    }
+
+    public SubEvent(SubEventCreateDTO newSubEventDto) {
+        this.title = newSubEventDto.getTitle();
+        this.description = newSubEventDto.getDescription();
+        this.startDateTime = newSubEventDto.getStartDateTime();
+        this.endDateTime = newSubEventDto.getEndDateTime();
+        this.isLimited = newSubEventDto.getIsLimited();
+        this.capacity = newSubEventDto.getCapacity();
     }
 
 }
