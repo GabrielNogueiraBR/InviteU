@@ -34,7 +34,7 @@ public class SubEvent implements Serializable {
     @Getter @Setter private Integer capacity;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "subEvent")
+    @OneToMany(mappedBy = "subEvent", cascade = CascadeType.ALL)
     @Getter @Setter private List<Rating> ratingList;
 
     @JsonIgnore
@@ -46,7 +46,7 @@ public class SubEvent implements Serializable {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @Getter @Setter private Status status;
 
-    @ManyToMany(mappedBy = "subEvents")
+    @ManyToMany(mappedBy = "subEvents", cascade = CascadeType.ALL)
     @Getter @Setter private List<User> user;
 
     @JsonGetter("rating")
