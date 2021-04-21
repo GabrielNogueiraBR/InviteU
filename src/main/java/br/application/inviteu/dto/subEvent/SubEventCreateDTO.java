@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class SubEventCreateDTO {
-    
+
     private String title;
     private String description;
     private LocalDateTime startDateTime;

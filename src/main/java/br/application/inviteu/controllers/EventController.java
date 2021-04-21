@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/api/event")
 public class EventController {
 
     @Autowired
@@ -26,26 +26,26 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventDTO> getEventsById(@PathVariable("id") Long id){
+    public ResponseEntity<EventDTO> getEventsById(@PathVariable("id") Long id) {
         EventDTO eventDto = eventService.getEventsById(id);
         return ResponseEntity.ok(eventDto);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<EventDTO> createEvent(@RequestBody EventCreateDTO createDto){
+    public ResponseEntity<EventDTO> createEvent(@RequestBody EventCreateDTO createDto) {
         EventDTO eventDto = eventService.createEvent(createDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(eventDto.getId()).toUri();
         return ResponseEntity.created(uri).body(eventDto);
     }
 
     @PutMapping("/{id}/edit")
-    public ResponseEntity<EventDTO> updateEvent(@PathVariable("id") Long id, @RequestBody EventUpdateDTO updateEventDto){
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable("id") Long id, @RequestBody EventUpdateDTO updateEventDto) {
         EventDTO eventDto = eventService.updateEvent(id, updateEventDto);
         return ResponseEntity.ok().body(eventDto);
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> removeEvent(@PathVariable("id") Long id){
+    public ResponseEntity<Void> removeEvent(@PathVariable("id") Long id) {
         eventService.removeEvent(id);
         return ResponseEntity.noContent().build();
     }

@@ -23,12 +23,12 @@ import br.application.inviteu.services.StatusService;
 @RestController
 @RequestMapping("/status")
 public class StatusController {
-    
+
     @Autowired
     private StatusService service;
 
     @GetMapping()
-    public ResponseEntity<List<Status>> getAllStatus(){
+    public ResponseEntity<List<Status>> getAllStatus() {
         List<Status> list = service.getAllStatus();
         return ResponseEntity.ok(list);
     }
@@ -38,22 +38,22 @@ public class StatusController {
         Status status = service.getStatusById(id);
         return ResponseEntity.ok(status);
     }
-    
+
     @PostMapping()
-    public ResponseEntity<Status> saveStatus(@RequestBody StatusInsertDTO dto){
+    public ResponseEntity<Status> saveStatus(@RequestBody StatusInsertDTO dto) {
         Status status = service.saveStatus(dto.toStatus());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(status.getId()).toUri();
         return ResponseEntity.created(uri).body(status);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Status> updateStatus(@PathVariable Long id, @RequestBody StatusInsertDTO dto){
-        Status status = service.updateStatus(id,dto);
+    public ResponseEntity<Status> updateStatus(@PathVariable Long id, @RequestBody StatusInsertDTO dto) {
+        Status status = service.updateStatus(id, dto);
         return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteStatus(@PathVariable Long id){
+    public ResponseEntity<Void> deleteStatus(@PathVariable Long id) {
         service.deleteStatus(id);
         return ResponseEntity.noContent().build();
     }

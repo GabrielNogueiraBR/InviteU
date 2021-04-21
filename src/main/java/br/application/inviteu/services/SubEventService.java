@@ -6,6 +6,7 @@ import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
 import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.repositories.SubEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,24 +23,24 @@ public class SubEventService {
     @Autowired
     private SubEventRepository subEventRepository;
 
-    public List<SubEventDTO> getAllSubEvents(){
+    public List<SubEventDTO> getAllSubEvents() {
         List<SubEvent> listSubEvents = subEventRepository.findAll();
 
-        if(listSubEvents.isEmpty()){
+        if (listSubEvents.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents to be shown.");
         }
         return toListDTO(listSubEvents);
     }
 
-    public SubEventDTO getSubEventById(Long id){
+    public SubEventDTO getSubEventById(Long id) {
         Optional<SubEvent> opSubEvent = subEventRepository.findById(id);
 
-        SubEvent subEvent = opSubEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No subEvents with this Id to shown."));
+        SubEvent subEvent = opSubEvent.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No subEvents with this Id to shown."));
 
         return new SubEventDTO(subEvent);
     }
 
-    public SubEventDTO createSubEvent(SubEventCreateDTO newSubEventDto){
+    public SubEventDTO createSubEvent(SubEventCreateDTO newSubEventDto) {
         if (verifyDateAndTime(newSubEventDto)) {
             try {
                 SubEvent subEvent = subEventRepository.save(new SubEvent(newSubEventDto));
@@ -52,8 +53,8 @@ public class SubEventService {
         }
     }
 
-    public SubEventDTO updateSubEvent(Long id, SubEventUpdateDTO subEventUpdateDto){
-        try{
+    public SubEventDTO updateSubEvent(Long id, SubEventUpdateDTO subEventUpdateDto) {
+        try {
             SubEvent subEvent = subEventRepository.getOne(id);
 
             subEvent.setTitle(subEventUpdateDto.getTitle());
@@ -67,22 +68,22 @@ public class SubEventService {
             subEvent = subEventRepository.save(subEvent);
 
             return new SubEventDTO(subEvent);
-        }
-        catch(EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents with this Id to shown.");
         }
     }
 
-    public void removeSubEvent(Long id){
-        try{
+    public void removeSubEvent(Long id) {
+        try {
             subEventRepository.deleteById(id);
             throw new ResponseStatusException(HttpStatus.OK, "The subEvent has been deleted");
-        }
-        catch(EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No subEvents with this Id to shown.");
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SubEvent could not be deleted");
         }
     }
-    
+
     private List<SubEventDTO> toListDTO(List<SubEvent> subEvents) {
         List<SubEventDTO> listDTO = new ArrayList<>();
 

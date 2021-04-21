@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import br.application.inviteu.dto.event.EventDTO;
+import br.application.inviteu.dto.rating.RatingUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,42 +27,53 @@ public class RatingService {
     private RatingRepository ratingRepository;
 
     public List<RatingDTO> getAllRatings() {
-        List <Rating> listRatings = ratingRepository.findAll();
+        List<Rating> listRatings = ratingRepository.findAll();
 
-        if(listRatings.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "");
+        if (listRatings.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No ratings to be shown.");
         }
         return toListDTO(listRatings);
     }
 
-    public Rating getRatingById(Long id) {
-        Optional<Rating> op = ratingRepository.findById(id);
-        return op.orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rating not found"));    
+    public RatingDTO getRatingById(Long id) {
+        Optional<Rating> opRating = ratingRepository.findById(id);
+
+        Rating rating = opRating.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rating not found"));
+
+        return new RatingDTO(rating);
     }
 
-    public Rating saveRating(RatingCreateDTO rating) {
-        return ratingRepository.save(fromDTO(rating));
-    }
+    public RatingDTO createRating(RatingCreateDTO newRatingDto) {
+        Rating ratingEntity = new Rating(newRatingDto);
 
-    public Rating updateRating(Long id, RatingCreateDTO dto) {
-        try{
-            Rating rating = getRatingById(id);
-            rating.setRating(dto.getRating());
-            return ratingRepository.save(rating);
+        try {
+            ratingEntity = ratingRepository.save(ratingEntity);
+            return new RatingDTO((ratingEntity));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the event on the database");
         }
-        catch(EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rating not found");
+    }
+
+    public RatingDTO updateRating(Long id, RatingUpdateDTO ratingUpdateDto) {
+        try {
+            Rating rating = ratingRepository.getOne(id);
+
+            rating.setRating(ratingUpdateDto.getRating());
+
+            rating = ratingRepository.save(rating);
+
+            return new RatingDTO(rating);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings with this Id to be shown.");
         }
     }
 
-    public void deleteRating(Long id) {
-        try{
+    public void removeRating(Long id) {
+        try {
             ratingRepository.deleteById(id);
-        }
-        catch(EmptyResultDataAccessException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rating not found");
-        }
-        catch(DataIntegrityViolationException e){
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings with this Id to be shown.");
+        } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rating could not be deleted");
         }
     }
@@ -68,31 +81,10 @@ public class RatingService {
     private List<RatingDTO> toListDTO(List<Rating> ratings) {
         List<RatingDTO> listDTO = new ArrayList<>();
 
-        for (Rating rating: ratings) {
-            listDTO.add(toDTO(rating));
+        for (Rating rating : ratings) {
+            listDTO.add(new RatingDTO(rating));
         }
         return listDTO;
     }
 
-    private RatingDTO toDTO(Rating rating) {
-        RatingDTO ratingDTO = new RatingDTO();
-
-        ratingDTO.setId(rating.getId());
-        ratingDTO.setRating(rating.getRating());
-        ratingDTO.setSubEvent(rating.getSubEvent());
-        ratingDTO.setUser(rating.getUser());
-
-        return ratingDTO;
-    }
-
-    private Rating fromDTO(RatingCreateDTO ratingCreateDTO){
-        Rating rating = new Rating();
-
-        ratingCreateDTO.setRating(rating.getRating());
-        ratingCreateDTO.setSubEvent(rating.getSubEvent());
-        ratingCreateDTO.setUser(rating.getUser());
-
-        return rating;
-    }
-    
 }

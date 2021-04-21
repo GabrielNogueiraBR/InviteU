@@ -65,13 +65,4 @@ public class Event implements Serializable {
         this.subEvents = newEventDto.getSubEvent();
     }
 
-    public Event(EventDTO eventDTO) {
-        this.title = eventDTO.getTitle();
-        this.description = eventDTO.getDescription();
-        this.isPublic = eventDTO.getIsPublic();
-        this.address = eventDTO.getAddress();
-        this.owner = eventDTO.getOwner();
-        this.subEvents = eventDTO.getSubEvent();
-    }
-
 }

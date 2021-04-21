@@ -10,4 +10,5 @@ public class RatingCreateDTO {
     private Integer rating;
     private User user;
     private SubEvent subEvent;
+
 }

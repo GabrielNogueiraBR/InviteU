@@ -3,6 +3,7 @@ package br.application.inviteu.controllers;
 import java.net.URI;
 import java.util.List;
 
+import br.application.inviteu.dto.rating.RatingUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,40 +22,40 @@ import br.application.inviteu.entities.Rating;
 import br.application.inviteu.services.RatingService;
 
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("api/rating")
 public class RatingController {
-    
+
     @Autowired
-    private RatingService service;
+    private RatingService ratingService;
 
-    @GetMapping()
-    public ResponseEntity<List<RatingDTO>> getAllRating(){
-        List<RatingDTO> list = service.getAllRatings();
-        return ResponseEntity.ok(list);
+    @GetMapping("/all")
+    public ResponseEntity<List<RatingDTO>> getAllRatings() {
+        List<RatingDTO> listRatingDto = ratingService.getAllRatings();
+        return ResponseEntity.ok(listRatingDto);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Rating> getRatingById(@PathVariable Long id) {
-        Rating rating = service.getRatingById(id);
-        return ResponseEntity.ok(rating);
-    }
-    
-    @PostMapping()
-    public ResponseEntity<Rating> saveRating(@RequestBody RatingCreateDTO dto){
-        Rating rating = service.saveRating(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(rating.getId()).toUri();
-        return ResponseEntity.created(uri).body(rating);
+    @GetMapping("/{id}")
+    public ResponseEntity<RatingDTO> getRatingById(@PathVariable("id") Long id) {
+        RatingDTO ratingDto = ratingService.getRatingById(id);
+        return ResponseEntity.ok(ratingDto);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Rating> updateRating(@PathVariable Long id, @RequestBody RatingCreateDTO dto){
-        Rating rating = service.updateRating(id,dto);
-        return ResponseEntity.ok(rating);
+    @PostMapping("/new")
+    public ResponseEntity<RatingDTO> saveRating(@RequestBody RatingCreateDTO createDto) {
+        RatingDTO ratingDto = ratingService.createRating(createDto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ratingDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(ratingDto);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteRating(@PathVariable Long id){
-        service.deleteRating(id);
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<RatingDTO> updateRating(@PathVariable("id") Long id, @RequestBody RatingUpdateDTO updateDto) {
+        RatingDTO ratingDto = ratingService.updateRating(id, updateDto);
+        return ResponseEntity.ok(ratingDto);
+    }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<Void> deleteRating(@PathVariable("id") Long id) {
+        ratingService.removeRating(id);
         return ResponseEntity.noContent().build();
     }
 }
