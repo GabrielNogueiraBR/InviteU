@@ -6,12 +6,15 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import br.application.inviteu.dto.user.UserCreateDTO;
+import br.application.inviteu.dto.user.UserUpdateDTO;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of="id")
 @ToString
@@ -41,14 +44,14 @@ public class User implements Serializable{
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @Getter @Setter private Collection<Role> roles;
+    @Getter @Setter private List<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     @Getter @Setter private Address address;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private List<Event> events;
 
@@ -61,4 +64,44 @@ public class User implements Serializable{
     )
     @Getter @Setter private List<SubEvent> subEvents;
     
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+      
+    public User(String username, String password, String name, LocalDate birthDate, String rg, String cpf, String email,
+            String gender, List<Role> roles, Address address) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.email = email;
+        this.gender = gender;
+        this.roles = roles;
+        this.address = address;
+    }
+
+    public User(UserCreateDTO userCreateDTO){
+        this.username = userCreateDTO.getUsername();
+        setPassword(userCreateDTO.getPassword());
+        this.name = userCreateDTO.getName();
+        this.birthDate = userCreateDTO.getBirthDate();
+        this.rg = userCreateDTO.getRg();
+        this.cpf = userCreateDTO.getCpf();
+        this.email = userCreateDTO.getEmail();
+        this.gender = userCreateDTO.getGender();
+        this.roles = userCreateDTO.getRoles();
+        this.address = userCreateDTO.getAddress();
+    }
+
+    public void setUserToUpdate(UserUpdateDTO userUpdateDTO) {
+        this.username = userUpdateDTO.getUsername();
+        setPassword(userUpdateDTO.getPassword());
+        this.name = userUpdateDTO.getName();
+        this.email = userUpdateDTO.getEmail();
+        this.address = userUpdateDTO.getAddress();
+    }
+
 }

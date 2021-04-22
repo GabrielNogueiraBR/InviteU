@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
 import br.application.inviteu.dto.subEvent.SubEventDTO;
 import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
-import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.services.SubEventService;
 
 @RestController

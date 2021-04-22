@@ -42,11 +42,11 @@ public class SubEvent implements Serializable {
     @JoinColumn(name = "event_id", nullable = false)
     @Getter @Setter private Event event;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @Getter @Setter private Status status;
 
-    @ManyToMany(mappedBy = "subEvents", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "subEvents")
     @Getter @Setter private List<User> user;
 
     @JsonGetter("rating")
