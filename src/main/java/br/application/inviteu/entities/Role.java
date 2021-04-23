@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.application.inviteu.dto.role.RoleCreateDTO;
 import lombok.*;
 
 @NoArgsConstructor
@@ -37,6 +38,11 @@ public class Role implements Serializable{
 
    public Role(String role) {
       this.role = role;
+   }
+
+   public Role(RoleCreateDTO newRoleDTO) {
+      this.role = newRoleDTO.getRole();
+      this.users = newRoleDTO.getUsers();
    }
 
 }
