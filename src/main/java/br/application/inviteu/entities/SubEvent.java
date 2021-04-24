@@ -1,6 +1,7 @@
 package br.application.inviteu.entities;
 
 import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
+import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -72,6 +73,18 @@ public class SubEvent implements Serializable {
         this.endDateTime = newSubEventDto.getEndDateTime();
         this.isLimited = newSubEventDto.getIsLimited();
         this.capacity = newSubEventDto.getCapacity();
+        this.status = newSubEventDto.getStatus();
+        this.event = newSubEventDto.getEvent();
+    }
+
+    public void updateSubEvent(SubEventUpdateDTO updateSubEventDto) {
+        this.setTitle(updateSubEventDto.getTitle());
+        this.setDescription(updateSubEventDto.getDescription());
+        this.setStartDateTime(updateSubEventDto.getStartDateTime());
+        this.setEndDateTime(updateSubEventDto.getEndDateTime());
+        this.setIsLimited(updateSubEventDto.getIsLimited());
+        this.setCapacity(updateSubEventDto.getCapacity());
+        this.setStatus(updateSubEventDto.getStatus());
     }
 
 }

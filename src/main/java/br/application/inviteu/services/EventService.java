@@ -7,6 +7,7 @@ import br.application.inviteu.entities.Event;
 import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,33 +34,33 @@ public class EventService {
         return toListDTO(listEvents);
     }
 
-    public EventDTO getEventsById(Long id){
+    public EventDTO getEventsById(Long id) {
         Optional<Event> opEvent = eventRepository.findById(id);
 
-        Event event = opEvent.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to shown."));
+        Event event = opEvent.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to shown."));
 
         return new EventDTO(event);
     }
 
-    public EventDTO createEvent(EventCreateDTO newEventDTO){
+    public EventDTO createEvent(EventCreateDTO newEventDTO) {
         Event eventEntity = new Event(newEventDTO);
 
-        List<SubEvent> listSubEvents = eventEntity.getSubEvents();
+        //List<SubEvent> listSubEvents = eventEntity.getSubEvents();
 
         //if (verifyDateAndTime(listSubEvents)) {
-            try {
-                eventEntity = eventRepository.save(eventEntity);
-                return new EventDTO(eventEntity);
-            } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the event on the database");
-            }
+        try {
+            eventEntity = eventRepository.save(eventEntity);
+            return new EventDTO(eventEntity);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the event on the database");
+        }
         //} else {
-            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must enter a start date that is earlier than the end.");
+        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must enter a start date that is earlier than the end.");
         //}
     }
 
-    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDto){
-        try{
+    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDto) {
+        try {
             Event event = eventRepository.getOne(id);
 
             event.setTitle(eventUpdateDto.getTitle());
@@ -70,19 +71,18 @@ public class EventService {
             event = eventRepository.save(event);
 
             return new EventDTO(event);
-        }
-        catch(EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events with this Id to shown.");
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to be shown.");
         }
     }
 
-    public void removeEvent(Long id){
-        try{
+    public void removeEvent(Long id) {
+        try {
             eventRepository.deleteById(id);
-            throw new ResponseStatusException(HttpStatus.OK, "The event has been deleted");
-        }
-        catch(EmptyResultDataAccessException e){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No events with this Id to shown.");
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No events with this Id to be shown.");
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event could not be deleted");
         }
     }
 
@@ -96,7 +96,7 @@ public class EventService {
     }
 
     private Boolean verifyDateAndTime(List<SubEvent> listSubEvents) {
-        for (SubEvent subEvent: listSubEvents) {
+        for (SubEvent subEvent : listSubEvents) {
             if (subEvent.getEndDateTime().isAfter(subEvent.getStartDateTime())) {
                 return true;
             }
