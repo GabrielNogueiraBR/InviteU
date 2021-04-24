@@ -3,6 +3,7 @@ package br.application.inviteu.services;
 import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
 import br.application.inviteu.dto.subEvent.SubEventDTO;
 import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
+import br.application.inviteu.entities.Event;
 import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.repositories.SubEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class SubEventService {
     @Autowired
     private SubEventRepository subEventRepository;
 
+    @Autowired
+    private StatusService statusService;
+
     public List<SubEventDTO> getAllSubEvents() {
         List<SubEvent> listSubEvents = subEventRepository.findAll();
 
@@ -40,31 +44,25 @@ public class SubEventService {
         return new SubEventDTO(subEvent);
     }
 
-    public SubEventDTO createSubEvent(SubEventCreateDTO newSubEventDto) {
+    public SubEventDTO createSubEvent(Event event, SubEventCreateDTO newSubEventDto) {
         if (verifyDateAndTime(newSubEventDto)) {
             try {
+                newSubEventDto.setEvent(event);
+                newSubEventDto.setStatus(statusService.getStatusById(1L));
                 SubEvent subEvent = subEventRepository.save(new SubEvent(newSubEventDto));
                 return new SubEventDTO(subEvent);
             } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the subEvent on the database");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error when saving the subEvent on the database", e);
             }
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must enter a start date that is earlier than the end.");
         }
     }
 
-    public SubEventDTO updateSubEvent(Long id, SubEventUpdateDTO subEventUpdateDto) {
+    public SubEventDTO updateSubEvent(Long id, SubEventUpdateDTO updateSubEventDto) {
         try {
             SubEvent subEvent = subEventRepository.getOne(id);
-
-            subEvent.setTitle(subEventUpdateDto.getTitle());
-            subEvent.setDescription(subEventUpdateDto.getDescription());
-            subEvent.setStartDateTime(subEventUpdateDto.getStartDateTime());
-            subEvent.setEndDateTime(subEventUpdateDto.getEndDateTime());
-            subEvent.setIsLimited(subEventUpdateDto.getIsLimited());
-            subEvent.setCapacity(subEventUpdateDto.getCapacity());
-            subEvent.setStatus(subEventUpdateDto.getStatus());
-
+            subEvent.updateSubEvent(updateSubEventDto);
             subEvent = subEventRepository.save(subEvent);
 
             return new SubEventDTO(subEvent);

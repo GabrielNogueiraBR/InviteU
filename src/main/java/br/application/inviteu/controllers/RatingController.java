@@ -22,14 +22,14 @@ import br.application.inviteu.entities.Rating;
 import br.application.inviteu.services.RatingService;
 
 @RestController
-@RequestMapping("api/rating")
+@RequestMapping("api/ratings")
 public class RatingController {
 
     @Autowired
     private RatingService ratingService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<RatingDTO>> getAllRatings() {
+    public ResponseEntity<List<RatingDTO>> getRatings() {
         List<RatingDTO> listRatingDto = ratingService.getAllRatings();
         return ResponseEntity.ok(listRatingDto);
     }
@@ -41,7 +41,7 @@ public class RatingController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<RatingDTO> saveRating(@RequestBody RatingCreateDTO createDto) {
+    public ResponseEntity<RatingDTO> createRating(@RequestBody RatingCreateDTO createDto) {
         RatingDTO ratingDto = ratingService.createRating(createDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ratingDto.getId()).toUri();
         return ResponseEntity.created(uri).body(ratingDto);
