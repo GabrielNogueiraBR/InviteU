@@ -28,7 +28,7 @@ public class StatusService {
 
     public Status getStatusById(Long id) {
         Optional<Status> op = repository.findById(id);
-        return op.orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found"));    
+        return op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found"));
     }
 
     public Status saveStatus(Status status) {
@@ -36,26 +36,23 @@ public class StatusService {
     }
 
     public Status updateStatus(Long id, StatusInsertDTO dto) {
-        try{
+        try {
             Status status = getStatusById(id);
             status.setDescription(dto.getDescription());
             return repository.save(status);
-        }
-        catch(EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
         }
     }
 
     public void deleteStatus(Long id) {
-        try{
+        try {
             repository.deleteById(id);
-        }
-        catch(EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
-        }
-        catch(DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status could not be deleted");
         }
     }
-    
+
 }
