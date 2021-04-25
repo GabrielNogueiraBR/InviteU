@@ -24,12 +24,12 @@ public class UserService {
    @Autowired
    private UserRepository userRepository;
 
-   public List<UserDTO> getAllUsers() {
+   public List<UserDTO> getUsers() {
       List<User> listUsers = userRepository.findAll();
 
-      if (listUsers.isEmpty()) {
+      if (listUsers.isEmpty())
          throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No Users to be shown.");
-      }
+
       return toListDTO(listUsers);
   }
 
