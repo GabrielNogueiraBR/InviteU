@@ -19,8 +19,8 @@ public class RoleController {
    private RoleService roleService;
 
    @GetMapping("/all")
-   public ResponseEntity<List<RoleDTO>> getAllRoles() {
-      List<RoleDTO> listRoles = roleService.getAllRoles();
+   public ResponseEntity<List<RoleDTO>> getRoles() {
+      List<RoleDTO> listRoles = roleService.getRoles();
       return ResponseEntity.ok(listRoles);
    }
 

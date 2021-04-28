@@ -22,7 +22,7 @@ public class RoleService {
    @Autowired
    private RoleRepository roleRepository;
 
-   public List<RoleDTO> getAllRoles() {
+   public List<RoleDTO> getRoles() {
       List<Role> listRoles = roleRepository.findAll();
 
       if (listRoles.isEmpty()) {
