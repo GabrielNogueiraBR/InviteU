@@ -36,7 +36,7 @@ public class Event implements Serializable {
     @JoinColumn(name = "user_owner_id")
     @Getter @Setter private User owner;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     @Getter @Setter private List<SubEvent> subEvents;
     
     @JsonGetter("rating")

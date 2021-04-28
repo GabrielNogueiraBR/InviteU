@@ -1,7 +1,7 @@
 package br.application.inviteu.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(of="id")
@@ -34,6 +33,10 @@ public class Role implements Serializable{
    
    @JsonIgnore
    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-   @Getter @Setter private Collection<User> users;
+   @Getter @Setter private List<User> users;
+
+   public Role(String role) {
+      this.role = role;
+   }
 
 }
