@@ -17,7 +17,7 @@ public class EventDTO {
     private Boolean isPublic;
     private Address address;
     private User owner;
-    private List<SubEvent> subEvent;
+    private List<SubEvent> subEvents;
 
     public EventDTO(Event eventEntity) {
         this.id = eventEntity.getId();
@@ -26,7 +26,7 @@ public class EventDTO {
         this.isPublic = eventEntity.getIsPublic();
         this.address = eventEntity.getAddress();
         this.owner = eventEntity.getOwner();
-        this.subEvent = eventEntity.getSubEvents();
+        this.subEvents = eventEntity.getSubEvents();
     }
 
 }

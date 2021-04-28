@@ -21,41 +21,27 @@ import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
 import br.application.inviteu.services.SubEventService;
 
 @RestController
-@RequestMapping("/api/subevent")
+@RequestMapping("/api/subevents")
 public class SubEventController {
-    
+
     @Autowired
     private SubEventService subEventService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<SubEventDTO>> getAllSubEvents() {
+    public ResponseEntity<List<SubEventDTO>> getSubEvents() {
         List<SubEventDTO> listSubEvents = subEventService.getAllSubEvents();
         return ResponseEntity.ok(listSubEvents);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubEventDTO> getSubEventsById(@PathVariable("id") Long id){
+    public ResponseEntity<SubEventDTO> getSubEventById(@PathVariable("id") Long id) {
         SubEventDTO subEventDto = subEventService.getSubEventById(id);
         return ResponseEntity.ok(subEventDto);
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<SubEventDTO> saveSubEvent(@RequestBody SubEventCreateDTO createDto){
-        SubEventDTO subEventDto = subEventService.createSubEvent(createDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(subEventDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(subEventDto);
-    }
-
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<SubEventDTO> updateSubEvent(@PathVariable("id") Long id, @RequestBody SubEventUpdateDTO subEventUpdateDto){
-        SubEventDTO subEventDto = subEventService.updateSubEvent(id, subEventUpdateDto);
-        return ResponseEntity.ok(subEventDto);
-    }
-
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> removeSubEvent(@PathVariable("id") Long id){
+    public ResponseEntity<Void> removeSubEvent(@PathVariable("id") Long id) {
         subEventService.removeSubEvent(id);
         return ResponseEntity.noContent().build();
     }
 }
-
