@@ -41,7 +41,7 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user")
     @Getter @Setter private List<Rating> ratingList;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Getter @Setter private List<Role> roles;
