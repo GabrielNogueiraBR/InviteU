@@ -20,8 +20,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode(of="id")
 @Entity
-@Getter
-@Setter
 public class Role implements Serializable{
 
    private static final long serialVersionUID = 1L;

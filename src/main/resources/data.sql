@@ -17,6 +17,7 @@ INSERT INTO Address (zip_code, state, city, district, street, number)
       ('22000-000', 'SP', 'Boituva',  'Novo mundo', 'Rua no Novo mundo', '173'),
       ('20000-000', 'SP', 'Ipero',  'Jd. Irene', 'Rua no Jd. Irene', '174');
 
+-- These unencrypted passwords are '1234'
 INSERT INTO User (username, password, name, birth_date, rg, cpf, email, gender, address_id)
    VALUES
       ( 'Joao', '$2a$10$ZcdPY.0/XOqoklEFbyULbOOIPdrArtC/xdpsHIyoWHkUOphovPWZK', 'Joao Silva',  '2001-01-30', '11.111.111-1', '123.123.123-12', 'joao@email.com', 'M', 1),
@@ -33,7 +34,7 @@ INSERT INTO User_Roles(user_id, role_id)
 
 INSERT INTO Event_main (title, description, is_public, address_id, user_owner_id)
     VALUES
-        ('Tomorrowland', 'Tomorrowland é um festival de música realizado anualmente.', true, 3, 2),
+        ('Tomorrowland', 'Tomorrowland é um festival de música realizado anualmente.', true, 3, 1),
         ('Rock in Rio', 'O Rock in Rio é um festival de música idealizado pelo empresário brasileiro Roberto Medina pela primeira vez em 1985, sendo, desde sua criação, reconhecidamente, o maior festival musical do planeta.', true, 1, 2),
         ('Aniversário', 'Aniversário de uma pessoa', false, 2, 2);
 

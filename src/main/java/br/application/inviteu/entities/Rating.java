@@ -24,7 +24,6 @@ public class Rating implements Serializable{
 
     @Getter @Setter private Integer rating;
 
-    @JsonIgnore
     @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @Getter @Setter private User user;

@@ -46,7 +46,6 @@ public class SubEvent implements Serializable {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @Getter @Setter private Status status;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "subEvents")
     @Getter @Setter private List<User> user;
 

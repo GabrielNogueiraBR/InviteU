@@ -32,7 +32,7 @@ public class Event implements Serializable {
     @Getter @Setter private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "user_owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_owner_id")
     @Getter @Setter private User owner;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
