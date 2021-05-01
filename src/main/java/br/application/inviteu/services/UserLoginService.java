@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 
 import br.application.inviteu.entities.Role;
 import br.application.inviteu.entities.User;
-import br.application.inviteu.repository.UserRepository;
+import br.application.inviteu.repositories.UserRepository;
 
 @Transactional
 @Service
-public class UserLoginService  implements UserDetailsService{
+public class UserLoginService implements UserDetailsService{
 
    private UserRepository userRepository;
 

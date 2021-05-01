@@ -1,6 +1,7 @@
 package br.application.inviteu.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.application.inviteu.dto.rating.RatingCreateDTO;
 import lombok.*;
 
 import java.io.Serializable;
@@ -31,5 +32,11 @@ public class Rating implements Serializable{
     @OneToOne()
     @JoinColumn(name = "subEvent_id", referencedColumnName = "id")
     @Getter @Setter private SubEvent subEvent;
+
+    public Rating(RatingCreateDTO newRatingDto) {
+        this.rating = newRatingDto.getRating();
+        this.user = newRatingDto.getUser();
+        this.subEvent = newRatingDto.getSubEvent();
+    }
     
 }

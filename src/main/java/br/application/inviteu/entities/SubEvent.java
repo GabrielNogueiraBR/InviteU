@@ -1,5 +1,7 @@
 package br.application.inviteu.entities;
 
+import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
+import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @NoArgsConstructor
 @ToString
@@ -34,7 +34,7 @@ public class SubEvent implements Serializable {
     @Getter @Setter private Integer capacity;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "subEvent")
+    @OneToMany(mappedBy = "subEvent", cascade = CascadeType.ALL)
     @Getter @Setter private List<Rating> ratingList;
 
     @JsonIgnore
@@ -42,7 +42,7 @@ public class SubEvent implements Serializable {
     @JoinColumn(name = "event_id", nullable = false)
     @Getter @Setter private Event event;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @Getter @Setter private Status status;
 
@@ -76,6 +76,27 @@ public class SubEvent implements Serializable {
             return 0.0;
         
         return (rantingSum/quantity);
+    }
+
+    public SubEvent(SubEventCreateDTO newSubEventDto) {
+        this.title = newSubEventDto.getTitle();
+        this.description = newSubEventDto.getDescription();
+        this.startDateTime = newSubEventDto.getStartDateTime();
+        this.endDateTime = newSubEventDto.getEndDateTime();
+        this.isLimited = newSubEventDto.getIsLimited();
+        this.capacity = newSubEventDto.getCapacity();
+        this.status = newSubEventDto.getStatus();
+        this.event = newSubEventDto.getEvent();
+    }
+
+    public void updateSubEvent(SubEventUpdateDTO updateSubEventDto) {
+        this.setTitle(updateSubEventDto.getTitle());
+        this.setDescription(updateSubEventDto.getDescription());
+        this.setStartDateTime(updateSubEventDto.getStartDateTime());
+        this.setEndDateTime(updateSubEventDto.getEndDateTime());
+        this.setIsLimited(updateSubEventDto.getIsLimited());
+        this.setCapacity(updateSubEventDto.getCapacity());
+        this.setStatus(updateSubEventDto.getStatus());
     }
 
 }

@@ -1,6 +1,6 @@
 package br.application.inviteu;
 
-import br.application.inviteu.repository.UserRepository;
+import br.application.inviteu.repositories.UserRepository;
 import br.application.inviteu.services.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
    @Override
    protected void configure(HttpSecurity http) throws Exception{
       http.authorizeRequests()
-            .antMatchers("/", "login", "/h2-console/**").permitAll()
-            .antMatchers("/admin").hasAnyAuthority("ADMIN")
-            .antMatchers("/secure").authenticated()
+            .antMatchers("/", "/login", "/h2-console/**").permitAll()
+            //.antMatchers("/api/roles/**").hasAnyAuthority("ADMIN")
+            //.antMatchers("/api/**").authenticated()
             .and()
             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .logoutSuccessUrl("/login").permitAll()

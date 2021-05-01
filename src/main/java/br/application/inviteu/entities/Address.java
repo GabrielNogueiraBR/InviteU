@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(of="id")
@@ -39,8 +40,6 @@ public class Address implements Serializable{
       this.district = district;
       this.street = street;
       this.number = number;
-   }
-
-   
+   } 
 
 }
