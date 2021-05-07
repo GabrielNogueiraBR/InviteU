@@ -33,7 +33,13 @@ public class UserService {
       return toListDTO(listUsers);
   }
 
-  public UserDTO getUserById(Long id){
+  public User getUserById(Long id){
+     Optional<User> opUser = userRepository.findById(id);
+
+     return opUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Users with this Id to shown."));
+  }
+
+  public UserDTO getUserByIdDTO(Long id){
       Optional<User> opUser = userRepository.findById(id);
 
       User user = opUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Users with this Id to shown."));

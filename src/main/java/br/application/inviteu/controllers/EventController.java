@@ -40,12 +40,12 @@ public class EventController {
         return ResponseEntity.ok(eventDto);
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<EventDTO> createEvent(@RequestBody EventCreateDTO createDto) {
-        EventDTO eventDto = eventService.createEvent(createDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(eventDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(eventDto);
-    }
+    // @PostMapping("/new")
+    // public ResponseEntity<EventDTO> createEvent(@RequestBody EventCreateDTO createDto) {
+    //     EventDTO eventDto = eventService.createEvent(createDto);
+    //     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(eventDto.getId()).toUri();
+    //     return ResponseEntity.created(uri).body(eventDto);
+    // }
 
     @PostMapping("/{eventId}/subEvent/new")
     public ResponseEntity<SubEventDTO> createSubEvent(@PathVariable("eventId") Long eventId, @RequestBody SubEventCreateDTO createDto) {
@@ -56,11 +56,11 @@ public class EventController {
         return ResponseEntity.created(uri).body(subEventDto);
     }
 
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<EventDTO> updateEvent(@PathVariable("id") Long id, @RequestBody EventUpdateDTO updateEventDto) {
-        EventDTO eventDto = eventService.updateEvent(id, updateEventDto);
-        return ResponseEntity.ok().body(eventDto);
-    }
+    // @PutMapping("/{id}/edit")
+    // public ResponseEntity<EventDTO> updateEvent(@PathVariable("id") Long id, @RequestBody EventUpdateDTO updateEventDto) {
+    //     EventDTO eventDto = eventService.updateEvent(id, updateEventDto);
+    //     return ResponseEntity.ok().body(eventDto);
+    // }
 
     @PutMapping("/{eventId}/subEvent/{subId}/edit")
     public ResponseEntity<SubEventDTO> updateSubEvent(@PathVariable("eventId") Long eventId, @PathVariable("subId") Long subId, @RequestBody SubEventUpdateDTO updateSubEventDto) {
@@ -68,10 +68,10 @@ public class EventController {
         return ResponseEntity.ok().body(subEventDto);
     }
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> removeEvent(@PathVariable("id") Long id) {
-        eventService.removeEvent(id);
-        return ResponseEntity.noContent().build();
-    }
+    // @DeleteMapping("/{id}/delete")
+    // public ResponseEntity<Void> removeEvent(@PathVariable("id") Long id) {
+    //     eventService.removeEvent(id);
+    //     return ResponseEntity.noContent().build();
+    // }
 
 }
