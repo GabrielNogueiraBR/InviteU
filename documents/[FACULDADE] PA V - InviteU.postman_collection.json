@@ -1,0 +1,655 @@
+{
+	"info": {
+		"_postman_id": "054b354c-58e1-438d-82c8-d86ad55eecd7",
+		"name": "[FACULDADE] PA V - InviteU",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Read All Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/event/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"event",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/event/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"event",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SubEvents",
+			"item": [
+				{
+					"name": "Read All SubEvents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/subevent/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"subevent",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique SubEvent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/subevent/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"subevent",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create SubEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Dia 4 Tomorrowland\",\r\n    \"description\": \"Alesso & Nick Romero\",\r\n    \"startDateTime\": \"2021-08-27T19:00:00\",\r\n    \"endDateTime\": \"2021-08-28T19:00:00\",\r\n    \"isLimited\": true,\r\n    \"capacity\": 1500,\r\n    \"status\": {\r\n        \"id\": 1,\r\n        \"description\": \"In progress\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/subevent/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"subevent",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update SubEvent",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Dia 1 Tomorrowland\",\r\n    \"description\": \"Alok e CatDealers\",\r\n    \"startDateTime\": \"2021-08-27T19:00:00\",\r\n    \"endDateTime\": \"2021-08-28T19:00:00\",\r\n    \"isLimited\": true,\r\n    \"capacity\": 5000,\r\n    \"status\": {\r\n        \"id\": 1,\r\n        \"description\": \"In progress\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/subevent/1/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"subevent",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove SubEvent",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/subevent/1/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"subevent",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "Read All Ratings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/rating/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rating",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique Rating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/rating/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rating",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Rating",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 5,\r\n    \"user\": {\r\n\r\n    },\r\n    \"address\": {\r\n        \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/rating/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rating",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rating",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/rating/1/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rating",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Rating",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/rating/1/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rating",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Event",
+					"item": [
+						{
+							"name": "Create Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"FEAPS\",\r\n    \"description\":\"Festa da Uva de Pilar do Sul\",\r\n    \"isPublic\":\"true\",\r\n    \"address\":  {\r\n        \"zip_code\":\"18185000\",\r\n        \"state\":\"SP\",\r\n        \"city\":\"Pilar do Sul\",\r\n        \"disctrict\":\"Nova Pilar\",\r\n        \"street\":\"Av. Antonio Lacerda\",\r\n        \"number\":\"330\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/users/1/events/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"1",
+										"events",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Event",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"FEAPS - Feira Agropecuaria de Pilar do Sul\",\r\n    \"description\":\"Feira\",\r\n    \"isPublic\": \"true\",\r\n    \"address\":  {\r\n        \"zipCode\":\"18185000\",\r\n        \"state\":\"SP\",\r\n        \"city\":\"Pilar do Sul\",\r\n        \"district\":\"Nova Pilar\",\r\n        \"street\":\"Av. Antonio Lacerda\",\r\n        \"number\":\"340\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/users/1/events/1/edit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"1",
+										"events",
+										"1",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Remove Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/users/1/events/1/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"events",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"username\": \"carlos\",\r\n        \"password\": \"12345\",\r\n        \"name\": \"Carlos Alberto\",\r\n        \"birthDate\": \"2001-01-30\",\r\n        \"rg\": \"11.111.111-1\",\r\n        \"cpf\": \"123.222.123-12\",\r\n        \"email\": \"carlos@email.com\",\r\n        \"gender\": \"M\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"role\": \"ADMIN\"\r\n            }\r\n        ],\r\n        \"address\": {\r\n            \"zipCode\": \"18000-000\",\r\n            \"state\": \"SP\",\r\n            \"city\": \"Sorocaba\",\r\n            \"district\": \"Jd. Santa Cruz\",\r\n            \"street\": \"Rua no Campolim\",\r\n            \"number\": \"170\"\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"flavio\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Flavio Alberto\",\r\n    \"email\": \"flafla@email.com\",\r\n    \"address\": {\r\n            \"zipCode\": \"18000-000\",\r\n            \"state\": \"SP\",\r\n            \"city\": \"São Paulo\",\r\n            \"district\": \"Jd. São Paulo\",\r\n            \"street\": \"Rua no Campolim\",\r\n            \"number\": \"200\"\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/1/edit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/1/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Read all Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/roles/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"roles",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/roles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"ENTERPRISE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/roles/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"roles",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"ENTERPRISE\",\r\n    \"users\": [\r\n        {\r\n            \"id\": 3,\r\n            \"username\": \"Michelli\",\r\n            \"password\": \"12345\",\r\n            \"name\": \"Michelli Brito\",\r\n            \"birthDate\": \"1990-01-30\",\r\n            \"rg\": \"33.333.333-3\",\r\n            \"cpf\": \"123.123.123-12\",\r\n            \"email\": \"raul@email.com\",\r\n            \"gender\": \"F\",\r\n            \"address\": {\r\n                \"id\": 4,\r\n                \"zipCode\": \"20000-000\",\r\n                \"state\": \"SP\",\r\n                \"city\": \"Ipero\",\r\n                \"district\": \"Jd. Irene\",\r\n                \"street\": \"Rua no Jd. Irene\",\r\n                \"number\": \"174\"\r\n            }\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/roles/3/edit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"roles",
+								"3",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/roles/2/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"roles",
+								"2",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
