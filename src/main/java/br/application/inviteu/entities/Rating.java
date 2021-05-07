@@ -1,5 +1,6 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.application.inviteu.dto.rating.RatingCreateDTO;
 import lombok.*;
 

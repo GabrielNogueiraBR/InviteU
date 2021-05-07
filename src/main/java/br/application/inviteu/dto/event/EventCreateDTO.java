@@ -1,10 +1,6 @@
 package br.application.inviteu.dto.event;
 
-
-import java.util.List;
-
 import br.application.inviteu.entities.Address;
-import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.entities.User;
 import lombok.Data;
 

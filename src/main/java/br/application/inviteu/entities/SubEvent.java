@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(of="id")
@@ -49,6 +48,18 @@ public class SubEvent implements Serializable {
 
     @ManyToMany(mappedBy = "subEvents")
     @Getter @Setter private List<User> user;
+
+    public SubEvent(String title, String description, LocalDateTime startDateTime, LocalDateTime endDateTime,
+            Boolean isLimited, Integer capacity, Event event, Status status) {
+        this.title = title;
+        this.description = description;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.isLimited = isLimited;
+        this.capacity = capacity;
+        this.event = event;
+        this.status = status;
+    }
 
     @JsonGetter("rating")
     public Double getRatingValue(){

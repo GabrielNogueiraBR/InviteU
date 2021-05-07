@@ -7,5 +7,5 @@ import br.application.inviteu.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-   
+   User findByUsername(String username);   
 }

@@ -13,6 +13,7 @@ import br.application.inviteu.dto.user.UserUpdateDTO;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -41,10 +42,10 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user")
     @Getter @Setter private List<Rating> ratingList;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @Getter @Setter private List<Role> roles;
+    @Getter @Setter private Collection<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -70,9 +71,9 @@ public class User implements Serializable{
     }
       
     public User(String username, String password, String name, LocalDate birthDate, String rg, String cpf, String email,
-            String gender, List<Role> roles, Address address) {
+            String gender, Collection<Role> roles, Address address) {
         this.username = username;
-        this.password = password;
+        setPassword(password);
         this.name = name;
         this.birthDate = birthDate;
         this.rg = rg;

@@ -1,7 +1,7 @@
 package br.application.inviteu.dto.user;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collection;
 
 import br.application.inviteu.entities.Address;
 import br.application.inviteu.entities.Role;
@@ -18,7 +18,7 @@ public class UserCreateDTO {
    private String cpf;
    private String email;
    private String gender;
-   private List<Role> roles;
+   private Collection<Role> roles;
    private Address address;
 
 }

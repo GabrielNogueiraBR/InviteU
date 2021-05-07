@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(of = "id")
@@ -38,7 +37,7 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     @Getter @Setter private List<SubEvent> subEvents;
-    
+        
     @JsonGetter("rating")
     public Double getRatingValue(){
         int quantity = 0;

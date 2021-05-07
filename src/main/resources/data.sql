@@ -1,4 +1,4 @@
-INSERT INTO Role (role) 
+INSERT INTO Role (role)
    VALUES
       ( 'ADMIN'),
       ( 'USER');
@@ -17,12 +17,13 @@ INSERT INTO Address (zip_code, state, city, district, street, number)
       ('22000-000', 'SP', 'Boituva',  'Novo mundo', 'Rua no Novo mundo', '173'),
       ('20000-000', 'SP', 'Ipero',  'Jd. Irene', 'Rua no Jd. Irene', '174');
 
+-- These unencrypted passwords are '1234'
 INSERT INTO User (username, password, name, birth_date, rg, cpf, email, gender, address_id)
    VALUES
-      ( 'Joao', '12345', 'Joao Silva',  '2001-01-30', '11.111.111-1', '123.123.123-12', 'joao@email.com', 'M', 1),
-      ( 'Ibere', '12345', 'Ibere Thenorio',  '1988-01-30', '22.222.222-2', '123.123.123-12', 'ibere@email.com', 'M', 2),
-      ( 'Michelli', '12345', 'Michelli Brito',  '1990-01-30', '33.333.333-3', '123.123.123-12', 'raul@email.com', 'F',4),
-      ( 'Rafaela', '12345', 'Rafaela Silva',  '2000-01-30', '44.444.444-4', '123.123.123-12', 'raul@email.com', 'M',3);
+      ( 'Joao', '$2a$10$ZcdPY.0/XOqoklEFbyULbOOIPdrArtC/xdpsHIyoWHkUOphovPWZK', 'Joao Silva',  '2001-01-30', '11.111.111-1', '123.123.123-12', 'joao@email.com', 'M', 1),
+      ( 'Ibere', '$2a$10$ZcdPY.0/XOqoklEFbyULbOOIPdrArtC/xdpsHIyoWHkUOphovPWZK', 'Ibere Thenorio',  '1988-01-30', '22.222.222-2', '123.123.123-12', 'ibere@email.com', 'M', 2),
+      ( 'Michelli', '$2a$10$ZcdPY.0/XOqoklEFbyULbOOIPdrArtC/xdpsHIyoWHkUOphovPWZK', 'Michelli Brito',  '1990-01-30', '33.333.333-3', '123.123.123-12', 'raul@email.com', 'F',4),
+      ( 'Rafaela', '$2a$10$ZcdPY.0/XOqoklEFbyULbOOIPdrArtC/xdpsHIyoWHkUOphovPWZK', 'Rafaela Silva',  '2000-01-30', '44.444.444-4', '123.123.123-12', 'raul@email.com', 'M',3);
 
 INSERT INTO User_Roles(user_id, role_id)
    VALUES
@@ -35,7 +36,7 @@ INSERT INTO Event_main (title, description, is_public, address_id, user_owner_id
     VALUES
         ('Tomorrowland', 'Tomorrowland é um festival de música realizado anualmente.', true, 3, 1),
         ('Rock in Rio', 'O Rock in Rio é um festival de música idealizado pelo empresário brasileiro Roberto Medina pela primeira vez em 1985, sendo, desde sua criação, reconhecidamente, o maior festival musical do planeta.', true, 1, 2),
-        ('Aniversário', 'Aniversário de uma pessoa', false, 2, 3);
+        ('Aniversário', 'Aniversário de uma pessoa', false, 2, 2);
 
 INSERT INTO Event_sub (title, description, start_date_time, end_date_time, is_limited, capacity, event_id, status_id)
     VALUES

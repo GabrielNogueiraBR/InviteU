@@ -1,12 +1,11 @@
 package br.application.inviteu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +32,14 @@ public class Address implements Serializable{
    @Getter @Setter private String district;
    @Getter @Setter private String street;
    @Getter @Setter private String number;
+   
+   public Address(String zipCode, String state, String city, String district, String street, String number) {
+      this.zipCode = zipCode;
+      this.state = state;
+      this.city = city;
+      this.district = district;
+      this.street = street;
+      this.number = number;
+   } 
 
 }

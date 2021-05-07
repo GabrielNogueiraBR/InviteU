@@ -44,5 +44,4 @@ public class Role implements Serializable{
       this.role = newRoleDTO.getRole();
       this.users = newRoleDTO.getUsers();
    }
-
 }
