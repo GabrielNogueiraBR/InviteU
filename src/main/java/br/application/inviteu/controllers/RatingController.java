@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.application.inviteu.dto.rating.RatingCreateDTO;
 import br.application.inviteu.dto.rating.RatingDTO;
-import br.application.inviteu.entities.Rating;
 import br.application.inviteu.services.RatingService;
 
 @RestController

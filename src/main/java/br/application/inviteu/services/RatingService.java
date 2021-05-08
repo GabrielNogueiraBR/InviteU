@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import br.application.inviteu.dto.event.EventDTO;
 import br.application.inviteu.dto.rating.RatingUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

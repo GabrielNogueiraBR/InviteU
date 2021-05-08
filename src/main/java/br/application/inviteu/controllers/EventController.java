@@ -7,7 +7,6 @@ import br.application.inviteu.dto.subEvent.SubEventCreateDTO;
 import br.application.inviteu.dto.subEvent.SubEventDTO;
 import br.application.inviteu.dto.subEvent.SubEventUpdateDTO;
 import br.application.inviteu.entities.Event;
-import br.application.inviteu.entities.SubEvent;
 import br.application.inviteu.services.EventService;
 import br.application.inviteu.services.SubEventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/events")
 public class EventController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class EventController {
     @Autowired
     private SubEventService subEventService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<EventDTO>> getEvents() {
         List<EventDTO> listEvents = eventService.getAllEvents();
         return ResponseEntity.ok(listEvents);
