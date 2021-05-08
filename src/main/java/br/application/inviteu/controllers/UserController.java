@@ -13,13 +13,13 @@ import br.application.inviteu.dto.user.UserUpdateDTO;
 import br.application.inviteu.services.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
    
    @Autowired
    private UserService userService;
 
-   @GetMapping("/all")
+   @GetMapping()
    public ResponseEntity<List<UserDTO>> getUsers() {
       List<UserDTO> listUsers = userService.getUsers();
       return ResponseEntity.ok(listUsers);
